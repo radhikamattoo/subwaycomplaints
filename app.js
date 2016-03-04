@@ -48,5 +48,18 @@ app.get("/", function(req, res){
 	res.render('homepage.hbs', {'complaints': tempComplaints.reverse()});
 });
 
+app.get("/complain", function(req, res){
+	res.render('complain.hbs');
+});
+
+app.post("/complain", function(req, res){
+	var complaintText = req.body.complaint;
+	var newLine = req.body.line;
+	var newComplaint = {line: newLine, complaint: complaintText};
+	complaints.push(newComplaint);
+	res.redirect(301, "/");
+});
+
+
 app.listen(port);
 console.log("Hosting at port " + port);
