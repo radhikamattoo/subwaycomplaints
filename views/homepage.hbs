@@ -1,0 +1,11 @@
+<h3> Complaints List </h3>
+
+<form method="GET" action="/">
+  Only show me complaints on the <input type="text" name="chosenLine" id="txtbox"> line <input type="submit">
+</form>
+
+<ul id="complaints">
+{{#each complaints}}
+<li> <div class = "line">{{line}} </div>{{complaint}}</li>
+{{/each}}
+</ul>
