@@ -63,7 +63,7 @@ app.get("/complain", function(req, res){
 
 app.post("/complain", function(req, res){
 	if(req.session.numComplaints === undefined){
-		req.session.numComplaints = 0;
+		req.session.numComplaints = 1;
 	}else{
 		req.session.numComplaints += 1;
 	}
