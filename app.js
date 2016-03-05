@@ -3,8 +3,17 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var path = require("path");
+var session = require('express-session');
 var port = 3000;
 
+
+//set up sessions
+var sessionOptions = {
+	secret: 'secret cookie thang',
+	resave: true,
+	saveUninitialized: true
+};
+app.use(session(sessionOptions));
 
 //array of complaint objects
 var complaints = [
@@ -53,11 +62,23 @@ app.get("/complain", function(req, res){
 });
 
 app.post("/complain", function(req, res){
+	if(req.session.numComplaints === undefined){
+		req.session.numComplaints = 0;
+	}else{
+		req.session.numComplaints += 1;
+	}
 	var complaintText = req.body.complaint;
 	var newLine = req.body.line;
 	var newComplaint = {line: newLine, complaint: complaintText};
 	complaints.push(newComplaint);
 	res.redirect(301, "/");
+});
+
+app.get("/stats", function(req, res){
+	if(req.session.numComplaints === undefined){
+		req.session.numComplaints = 0;
+	}
+	res.render('stats.hbs', {numComplaints: req.session.numComplaints});
 });
 
 
